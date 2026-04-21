@@ -80,7 +80,6 @@ def run_baseline_models(X_train, X_test, y_train, y_test) -> pd.DataFrame:
 
 
 def tune_models(X_train, y_train) -> dict:
-    """RandomizedSearchCV for RF and XGBoost. Returns best params dict."""
     logger.info("=" * 60)
     logger.info("Tuning RF and XGBoost with RandomizedSearchCV …")
     logger.info("=" * 60)
@@ -110,7 +109,6 @@ def tune_models(X_train, y_train) -> dict:
 
 
 def train_final_models(X_train, X_test, y_train, y_test, best_params: dict):
-    """Train tuned RF + XGBoost, form weighted ensemble, log metrics."""
     logger.info("=" * 60)
     logger.info("Training final tuned models …")
     logger.info("=" * 60)
@@ -134,7 +132,6 @@ def train_final_models(X_train, X_test, y_train, y_test, best_params: dict):
 
 
 def save_pipeline(rf_model, xgb_model, scaler, num_imputer, feature_columns, num_cols):
-    """Persist all artefacts needed for inference."""
     os.makedirs(MODEL_DIR, exist_ok=True)
 
     pipeline = {

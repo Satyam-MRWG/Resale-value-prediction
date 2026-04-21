@@ -1,7 +1,3 @@
-# ──────────────────────────────────────────────
-#  src/preprocess.py  –  Data cleaning & feature engineering
-# ──────────────────────────────────────────────
-
 import logging
 import numpy as np
 import pandas as pd
