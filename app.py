@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from ultralytics import YOLO
 import shutil, uuid, os
 import pandas as pd
+from typing import Tuple, Dict, List
 
 # ── Import helpers from predict.py ─────────────
 from src.predict import predict_price, calculate_damage_penalty, validate_input
@@ -18,7 +19,7 @@ app.add_middleware(
 )
 
 # Load model once at startup
-MODEL_PATH = os.path.join(os.path.dirname(__file__), "best.pt")
+MODEL_PATH = os.path.join(os.path.dirname(__file__), "models","best.pt")
 model = YOLO(MODEL_PATH)
 
 # ✅ UPDATED: Realistic Indian market repair costs (₹)
@@ -178,7 +179,7 @@ def get_recommendations(damage_counts: dict, health_score: int) -> list:
 
 
 # ── Shared YOLO detection helper ───────────────
-def run_yolo_detection(temp_path: str) -> tuple[dict, list]:
+def run_yolo_detection(temp_path: str) -> Tuple[Dict, List]:
     """Run YOLO on image, return (damage_counts, damage_details)."""
     results        = model(temp_path, conf=0.40)
     damage_counts  = {}
@@ -208,7 +209,7 @@ def run_yolo_detection(temp_path: str) -> tuple[dict, list]:
 
 
 # ── Shared image save/cleanup helper ──────────
-async def save_temp_image(file: UploadFile) -> tuple[str, bytes]:
+async def save_temp_image(file: UploadFile) -> Tuple[str, bytes]:
     """Validate, read, and save uploaded image. Returns (temp_path, contents)."""
     if not file.content_type.startswith("image/"):
         raise HTTPException(400, "Only image files are allowed (jpg, png, webp)")
